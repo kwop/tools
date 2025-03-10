@@ -33,6 +33,7 @@ RUN apk add --no-cache \
     curl \
     gcompat \
     git \
+    go \
     idn2-utils \
     jq \
     openssh \
