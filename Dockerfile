@@ -26,7 +26,12 @@ RUN if [ `uname -m` = 'x86_64' ]; then echo -n "x86_64" > /tmp/arch; else echo -
 # Install Google Cloud SDK in the builder stage
 RUN ARCH=`cat /tmp/arch` && wget -q "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-${GCLOUD_VERSION}-linux-${ARCH}.tar.gz" && \
     tar -xf "google-cloud-cli-${GCLOUD_VERSION}-linux-${ARCH}.tar.gz" && \
-    ./google-cloud-sdk/install.sh --quiet --additional-components kubectl gke-gcloud-auth-plugin
+    ./google-cloud-sdk/install.sh --quiet --additional-components kubectl gke-gcloud-auth-plugin && \
+    # Cleanup unnecessary SDK components
+    rm -rf /tmp/google-cloud-sdk/bin/anthoscli \
+           /tmp/google-cloud-sdk/bin/kubectl.1.* \
+           /tmp/google-cloud-sdk/data/cli \
+           /tmp/google-cloud-sdk/.install
 
 FROM alpine:3.23
 
